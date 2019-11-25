@@ -10,8 +10,8 @@ EZ_COLORS_HOST_AWS_VAULT=yellow
 EZ_COLORS_CURRENT_DIR=magenta
 EZ_COLORS_RETURN_STATUS_TRUE=yellow
 EZ_COLORS_RETURN_STATUS_FALSE=red
-EZ_COLORS_GIT_STATUS_DEFAULT=green
-EZ_COLORS_GIT_STATUS_STAGED=red
+EZ_COLORS_GIT_STATUS_DEFAULT=yellow
+EZ_COLORS_GIT_STATUS_STAGED=yellow
 EZ_COLORS_GIT_STATUS_UNSTAGED=yellow
 EZ_COLORS_GIT_PROMPT_SHA=green
 EZ_COLORS_BG_JOBS=yellow
@@ -68,6 +68,7 @@ ez_git_status() {
         message_color="%F{$EZ_COLORS_GIT_STATUS_STAGED}"
     elif [[ -n ${unstaged} ]]; then
         message_color="%F{$EZ_COLORS_GIT_STATUS_UNSTAGED}"
+        message+="%{$fg[magenta]%}[*]"
     fi
 
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
