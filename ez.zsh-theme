@@ -18,9 +18,10 @@ EZ_COLORS_BG_JOBS=yellow
 
 # Left Prompt
  PROMPT='$(ez_host)$(ez_current_dir)$(ez_bg_jobs)$(ez_git_status)$(ez_return_status)'
+ # PROMPT='$(ez_host)$(ez_current_dir)$(ez_bg_jobs)$(ez_git_status)$(ez_return_status)'
 
 # Right Prompt
- RPROMPT='$(git_prompt_info)'
+ # RPROMPT='$(git_prompt_info)'
 
 # Prompt with current SHA
 # PROMPT='$(ez_host)$(ez_current_dir)$(ez_bg_jobs)$(ez_return_status)'
@@ -44,9 +45,9 @@ ez_host() {
 # Current directory
 ez_current_dir() {
 
-  # echo -n "%{$fg[blue]%}%~ $fg[$EZ_COLORS_CURRENT_DIR]%}%c "
 
-  echo -n "$fg[$EZ_COLORS_CURRENT_DIR]%}%1~"
+  # echo -n "%{$fg[blue]%}%~ $fg[$EZ_COLORS_CURRENT_DIR]%}%c "
+  echo -n "%F{$EZ_COLORS_CURRENT_DIR}%1~"
 }
 
 # Prompt symbol
@@ -68,7 +69,6 @@ ez_git_status() {
         message_color="%F{$EZ_COLORS_GIT_STATUS_STAGED}"
     elif [[ -n ${unstaged} ]]; then
         message_color="%F{$EZ_COLORS_GIT_STATUS_UNSTAGED}"
-        message+="%{$fg[magenta]%}[*]"
     fi
 
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -76,11 +76,16 @@ ez_git_status() {
         message+=" ${message_color}${branch}%f"
     fi
 
-    if [[ -n $(git status -s) ]]; then
-        message+="%{$fg[magenta]%}*"
-    # elif [[ -n ${unstaged} ]]; then
-    #     message_color="%F{$EZ_COLORS_GIT_STATUS_UNSTAGED}"
-    fi
+    if [ -d .git ]; then
+      if [[ -n $(git status -s) ]]; then
+          message+="%{$fg[magenta]%}*"
+      # elif [[ -n ${unstaged} ]]; then
+      #     message_color="%F{$EZ_COLORS_GIT_STATUS_UNSTAGED}"
+      fi
+    else
+      # git rev-parse --git-dir 2> /dev/null;
+    fi;
+
 
     echo -n "${message}"
 }
